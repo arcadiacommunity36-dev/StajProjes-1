@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Product colors</h2>
+<mat-dialog-content>
+  <div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+  <div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+  <form #colorForm="ngForm" (ngSubmit)="save(colorForm)">
+    <h3>{{ editId ? 'Edit color' : 'New color' }}</h3>
+    <div class="form-grid"><label class="field">Name<input name="name" [(ngModel)]="model.name" required maxlength="50" pattern=".*\S.*"></label><label class="check-field"><input type="checkbox" name="status" [(ngModel)]="model.status">Active</label></div>
+    <div class="actions"><button class="button" type="submit" [disabled]="colorForm.invalid || busy">{{ busy ? 'Saving...' : 'Save color' }}</button><button class="button secondary" type="button" (click)="reset(colorForm)" [disabled]="busy">Clear</button></div>
+  </form>
+  <p *ngIf="loading" class="empty">Loading colors...</p>
+  <div *ngIf="!loading" class="table-wrap dialog-table"><table><thead><tr><th>Name</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    <tr *ngFor="let color of colors"><td>{{ color.name }}</td><td><span class="badge" [class.ready]="color.status">{{ color.status ? 'Active' : 'Inactive' }}</span></td><td class="row-actions"><button class="button secondary small" (click)="edit(color)" [disabled]="busy">Edit</button><button class="button danger small" (click)="remove(color)" [disabled]="busy">Delete</button></td></tr>
+    <tr *ngIf="colors.length === 0"><td colspan="3" class="empty">No colors found.</td></tr>
+  </tbody></table></div>
+</mat-dialog-content>
+<mat-dialog-actions align="end"><button class="button secondary" (click)="dialog.close()" [disabled]="busy">Close</button></mat-dialog-actions>

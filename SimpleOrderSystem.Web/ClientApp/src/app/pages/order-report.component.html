@@ -1,0 +1,15 @@
+<div class="page-heading"><div><h1>Order report</h1><p>Review recorded customer orders.</p></div><button type="button" class="button secondary" (click)="load()" [disabled]="loading">Refresh</button></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<section class="panel">
+  <div class="toolbar"><label class="field">Search orders<input type="search" [(ngModel)]="search" placeholder="Customer, product, color, size or order ID"></label><p>{{ filteredOrders.length }} orders · {{ totalQuantity }} units</p></div>
+  <p *ngIf="loading" role="status">Loading orders...</p>
+  <div class="table-wrap" *ngIf="!loading">
+    <table>
+      <thead><tr><th>Order</th><th>Customer</th><th>Product</th><th>Color</th><th>Size</th><th>Quantity</th><th>Created</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders"><td>#{{ order.id }}</td><td>{{ order.customerName }}</td><td>{{ order.productName }}</td><td>{{ order.colorName }}</td><td>{{ order.size }}</td><td>{{ order.quantity }}</td><td>{{ order.createdDate | date:'dd MMM yyyy, HH:mm' }}</td></tr>
+        <tr *ngIf="!filteredOrders.length"><td colspan="7" class="empty">No orders found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>

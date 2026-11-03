@@ -1,0 +1,19 @@
+<div class="login-wrap">
+  <section class="login-card">
+    <div class="brand-mark">SO</div>
+    <p class="eyebrow">COMPANY WORKSPACE</p>
+    <h1>Simple Order System</h1>
+    <p class="muted">Sign in with your employee account.</p>
+    <div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+    <form #loginForm="ngForm" (ngSubmit)="submit()">
+      <label class="field">Email
+        <input type="email" name="email" [(ngModel)]="email" required email maxlength="150" autocomplete="username">
+      </label>
+      <label class="field">Password
+        <input type="password" name="password" [(ngModel)]="password" required maxlength="128" autocomplete="current-password">
+      </label>
+      <button type="submit" class="button login-button" [disabled]="loginForm.invalid || busy">{{ busy ? 'Signing in...' : 'Sign in' }}</button>
+    </form>
+    <p class="login-note">For authorized company employees only.</p>
+  </section>
+</div>

@@ -1,0 +1,26 @@
+<div class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1>Employees</h1><p>Create accounts and assign one or more roles.</p></div></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel">
+  <h2>{{ editId ? 'Edit employee' : 'New employee' }}</h2>
+  <form #userForm="ngForm" (ngSubmit)="save(userForm)">
+    <div class="form-grid">
+      <label class="field">Full name<input name="fullName" [(ngModel)]="model.fullName" required maxlength="100" pattern=".*\S.*" autocomplete="name"></label>
+      <label class="field">Phone number<input name="phoneNumber" [(ngModel)]="model.phoneNumber" required maxlength="30" pattern=".*\S.*" autocomplete="tel"></label>
+      <label class="field">Email<input type="email" name="email" [(ngModel)]="model.email" required email maxlength="150" autocomplete="email"></label>
+      <label class="field">Gender<select name="gender" [(ngModel)]="model.gender" required><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select></label>
+      <label class="field">{{ editId ? 'New password (optional)' : 'Password' }}<input type="password" name="password" [(ngModel)]="model.password" [required]="!editId" minlength="8" maxlength="128" autocomplete="new-password"><span class="field-help">{{ editId ? 'Leave empty to keep the existing password.' : 'Use at least 8 characters.' }}</span></label>
+      <label class="check-field"><input type="checkbox" name="status" [(ngModel)]="model.status">Active</label>
+      <fieldset class="field-wide"><legend>Roles</legend><div class="role-options"><label class="check-field" *ngFor="let role of roles"><input type="checkbox" [checked]="model.roleIds.includes(role.id)" (change)="toggleRole(role.id, $event)" [disabled]="!role.status && !model.roleIds.includes(role.id)">{{ role.name }}{{ role.status ? '' : ' (inactive)' }}</label></div><p class="field-help">Select at least one role.</p></fieldset>
+    </div>
+    <div class="actions"><button class="button" type="submit" [disabled]="userForm.invalid || model.roleIds.length === 0 || busy">{{ busy ? 'Saving...' : 'Save employee' }}</button><button class="button secondary" type="button" (click)="reset(userForm)" [disabled]="busy">Clear</button></div>
+  </form>
+</section>
+<section class="panel">
+  <div class="toolbar"><h2>Employee list <span class="count">{{ users.length }}</span></h2><input type="search" [(ngModel)]="search" placeholder="Search name, email or role" aria-label="Search employees"></div>
+  <p *ngIf="loading" class="empty">Loading employees...</p>
+  <div *ngIf="!loading" class="table-wrap"><table><thead><tr><th>Full name</th><th>Contact</th><th>Gender</th><th>Roles</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    <tr *ngFor="let user of filteredUsers"><td>{{ user.fullName }}</td><td>{{ user.email }}<small>{{ user.phoneNumber }}</small></td><td>{{ user.gender }}</td><td>{{ user.roles.join(', ') }}</td><td><span class="badge" [class.ready]="user.status">{{ user.status ? 'Active' : 'Inactive' }}</span></td><td class="row-actions"><button class="button secondary small" (click)="edit(user)" [disabled]="busy">Edit</button><button class="button danger small" (click)="remove(user)" [disabled]="busy">Delete</button></td></tr>
+    <tr *ngIf="filteredUsers.length === 0"><td colspan="6" class="empty">No employees found.</td></tr>
+  </tbody></table></div>
+</section>

@@ -1,0 +1,23 @@
+<div class="page-heading"><div><p class="eyebrow">CATALOG</p><h1>Products</h1><p>Maintain products, sizes and colors.</p></div><button class="button secondary" type="button" (click)="openColors()" [disabled]="busy">Manage colors</button></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel">
+  <h2>{{ editId ? 'Edit product' : 'New product' }}</h2>
+  <form #productForm="ngForm" (ngSubmit)="save(productForm)">
+    <div class="form-grid">
+      <label class="field">Product name<input name="name" [(ngModel)]="model.name" required maxlength="150" pattern=".*\S.*"></label>
+      <label class="field">Color<select name="colorId" [(ngModel)]="model.colorId" required><option [ngValue]="0" disabled>Select a color</option><option *ngFor="let color of colors" [ngValue]="color.id" [disabled]="!color.status">{{ color.name }}{{ color.status ? '' : ' (inactive)' }}</option></select></label>
+      <label class="field">Size<select name="size" [(ngModel)]="model.size" required><option *ngFor="let size of sizes" [value]="size">{{ size }}</option></select></label>
+      <label class="check-field"><input type="checkbox" name="status" [(ngModel)]="model.status">Active</label>
+    </div>
+    <div class="actions"><button class="button" type="submit" [disabled]="productForm.invalid || !model.colorId || busy">{{ busy ? 'Saving...' : 'Save product' }}</button><button class="button secondary" type="button" (click)="reset(productForm)" [disabled]="busy">Clear</button></div>
+  </form>
+</section>
+<section class="panel">
+  <div class="toolbar"><h2>Product list <span class="count">{{ products.length }}</span></h2><input type="search" [(ngModel)]="search" placeholder="Search name, color or size" aria-label="Search products"></div>
+  <p *ngIf="loading" class="empty">Loading products...</p>
+  <div *ngIf="!loading" class="table-wrap"><table><thead><tr><th>Name</th><th>Color</th><th>Size</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    <tr *ngFor="let product of filteredProducts"><td>{{ product.name }}</td><td>{{ product.colorName }}</td><td><span class="size-label">{{ product.size }}</span></td><td><span class="badge" [class.ready]="product.status">{{ product.status ? 'Active' : 'Inactive' }}</span></td><td class="row-actions"><button class="button secondary small" (click)="edit(product)" [disabled]="busy">Edit</button><button class="button danger small" (click)="remove(product)" [disabled]="busy">Delete</button></td></tr>
+    <tr *ngIf="filteredProducts.length === 0"><td colspan="5" class="empty">No products found.</td></tr>
+  </tbody></table></div>
+</section>

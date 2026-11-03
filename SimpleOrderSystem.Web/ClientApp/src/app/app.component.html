@@ -1,0 +1,16 @@
+<header class="topbar" *ngIf="showNavigation">
+  <div class="topbar-inner"><a class="brand" routerLink="/stock"><span class="brand-mark small-mark">SO</span><span>Simple Order System</span></a><div class="account"><div><strong>{{ auth.user?.fullName }}</strong><small>{{ auth.user?.roles?.join(', ') }}</small></div><button class="button secondary small" (click)="auth.logout()">Sign out</button></div></div>
+  <nav aria-label="Main navigation">
+    <div class="nav-inner">
+      <a *ngIf="auth.hasAnyRole(['Admin', 'User', 'CustomerRepresentative'])" routerLink="/stock" routerLinkActive="active">Stock report</a>
+      <a *ngIf="auth.hasAnyRole(['Admin', 'User', 'CustomerRepresentative'])" routerLink="/order-report" routerLinkActive="active">Order report</a>
+      <a *ngIf="auth.hasRole('CustomerRepresentative')" routerLink="/orders" routerLinkActive="active">New order</a>
+      <a *ngIf="auth.hasAnyRole(['Admin', 'User', 'CustomerRepresentative'])" routerLink="/products" routerLinkActive="active">Products</a>
+      <a *ngIf="auth.hasAnyRole(['Admin', 'CustomerRepresentative'])" routerLink="/customers" routerLinkActive="active">Customers</a>
+      <a *ngIf="auth.hasRole('Admin')" routerLink="/users" routerLinkActive="active">Employees</a>
+      <a *ngIf="auth.hasRole('Admin')" routerLink="/roles" routerLinkActive="active">Roles</a>
+    </div>
+  </nav>
+</header>
+<main [class.workspace]="showNavigation"><router-outlet></router-outlet></main>
+<footer class="footer" *ngIf="showNavigation">Simple Order System · Internal company application</footer>

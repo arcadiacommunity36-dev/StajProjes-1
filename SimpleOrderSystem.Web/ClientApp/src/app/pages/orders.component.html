@@ -1,0 +1,31 @@
+<div class="page-heading"><div><h1>Create order</h1><p>Select a customer, product and quantity.</p></div></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel">
+  <p *ngIf="loading" role="status">Loading order options...</p>
+  <form #orderForm="ngForm" (ngSubmit)="orderForm.valid && save()" class="form-grid">
+    <label class="field">Customer
+      <select name="customerId" [(ngModel)]="model.customerId" required [disabled]="loading || saving">
+        <option [ngValue]="0" disabled>Select a customer</option>
+        <option *ngFor="let customer of customers" [ngValue]="customer.id">{{ customer.name }} ({{ customer.code }})</option>
+      </select>
+    </label>
+    <label class="field">Product
+      <select name="productId" [(ngModel)]="model.productId" required [disabled]="loading || saving">
+        <option [ngValue]="0" disabled>Select a product</option>
+        <option *ngFor="let product of products" [ngValue]="product.id">{{ product.name }} / {{ product.colorName }} / {{ product.size }}</option>
+      </select>
+    </label>
+    <label class="field">Quantity
+      <input name="quantity" type="number" [(ngModel)]="model.quantity" required min="1" max="2147483647" step="1" [disabled]="loading || saving">
+    </label>
+    <div class="field" *ngIf="model.productId">
+      <span>Current stock</span>
+      <p *ngIf="selectedStock as item; else missingStock">{{ item.quantity }} units · {{ item.canSell ? 'Available for sale' : 'Unavailable for sale' }}</p>
+      <ng-template #missingStock><p>No stock record available.</p></ng-template>
+    </div>
+    <p class="field-wide">Availability is checked again when the order is submitted.</p>
+    <div class="actions field-wide"><button type="submit" class="button" [disabled]="loading || saving || orderForm.invalid || !model.customerId || !model.productId">{{ saving ? 'Creating order...' : 'Create order' }}</button></div>
+  </form>
+  <p *ngIf="!loading && (!customers.length || !products.length)" class="empty">Active customers and products are required before an order can be created.</p>
+</section>

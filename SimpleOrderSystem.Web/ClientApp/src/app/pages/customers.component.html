@@ -1,0 +1,25 @@
+<div class="page-heading"><div><p class="eyebrow">DIRECTORY</p><h1>Customers</h1><p>Manage customer details and contact information.</p></div></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel">
+  <h2>{{ editId ? 'Edit customer' : 'New customer' }}</h2>
+  <form #customerForm="ngForm" (ngSubmit)="save(customerForm)">
+    <div class="form-grid">
+      <label class="field">Customer name<input name="name" [(ngModel)]="model.name" required maxlength="150" pattern=".*\S.*"></label>
+      <label class="field">Customer code<input name="code" [(ngModel)]="model.code" required maxlength="30" pattern=".*\S.*"></label>
+      <label class="field">Phone number<input name="phoneNumber" [(ngModel)]="model.phoneNumber" required maxlength="30" pattern=".*\S.*"></label>
+      <label class="field">Email<input type="email" name="email" [(ngModel)]="model.email" required email maxlength="150"></label>
+      <label class="field field-wide">Address<textarea name="address" [(ngModel)]="model.address" required maxlength="500" rows="2" pattern=".*\S[\s\S]*"></textarea></label>
+      <label class="check-field"><input type="checkbox" name="status" [(ngModel)]="model.status">Active</label>
+    </div>
+    <div class="actions"><button class="button" type="submit" [disabled]="customerForm.invalid || busy">{{ busy ? 'Saving...' : 'Save customer' }}</button><button class="button secondary" type="button" (click)="reset(customerForm)" [disabled]="busy">Clear</button></div>
+  </form>
+</section>
+<section class="panel">
+  <div class="toolbar"><h2>Customer list <span class="count">{{ customers.length }}</span></h2><input type="search" [(ngModel)]="search" placeholder="Search name, code or email" aria-label="Search customers"></div>
+  <p *ngIf="loading" class="empty">Loading customers...</p>
+  <div *ngIf="!loading" class="table-wrap"><table><thead><tr><th>Code</th><th>Name</th><th>Contact</th><th>Address</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    <tr *ngFor="let customer of filteredCustomers"><td>{{ customer.code }}</td><td>{{ customer.name }}</td><td>{{ customer.email }}<small>{{ customer.phoneNumber }}</small></td><td>{{ customer.address }}</td><td><span class="badge" [class.ready]="customer.status">{{ customer.status ? 'Active' : 'Inactive' }}</span></td><td class="row-actions"><button class="button secondary small" (click)="edit(customer)" [disabled]="busy">Edit</button><button class="button danger small" (click)="remove(customer)" [disabled]="busy">Delete</button></td></tr>
+    <tr *ngIf="filteredCustomers.length === 0"><td colspan="6" class="empty">No customers found.</td></tr>
+  </tbody></table></div>
+</section>

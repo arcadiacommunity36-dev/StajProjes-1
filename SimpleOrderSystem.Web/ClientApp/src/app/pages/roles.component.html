@@ -1,0 +1,21 @@
+<div class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1>Roles</h1><p>Manage employee role definitions.</p></div></div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel">
+  <h2>{{ editId ? 'Edit role' : 'New role' }}</h2>
+  <form #roleForm="ngForm" (ngSubmit)="save(roleForm)">
+    <div class="form-grid">
+      <label class="field">Name<input name="name" [(ngModel)]="model.name" required maxlength="60" pattern=".*\S.*"></label>
+      <label class="check-field"><input type="checkbox" name="status" [(ngModel)]="model.status">Active</label>
+    </div>
+    <div class="actions"><button class="button" type="submit" [disabled]="roleForm.invalid || busy">{{ busy ? 'Saving...' : 'Save role' }}</button><button class="button secondary" type="button" (click)="reset(roleForm)" [disabled]="busy">Clear</button></div>
+  </form>
+</section>
+<section class="panel">
+  <p class="muted">The three system roles have fixed permissions. Additional roles can be assigned to employees but do not grant page access.</p>
+  <p *ngIf="loading" class="empty">Loading roles...</p>
+  <div class="table-wrap" *ngIf="!loading"><table><thead><tr><th>Name</th><th>Status</th><th>Actions</th></tr></thead><tbody>
+    <tr *ngFor="let role of roles"><td>{{ role.name }} <span *ngIf="systemNames.includes(role.name)" class="badge">System role</span></td><td><span class="badge" [class.ready]="role.status">{{ role.status ? 'Active' : 'Inactive' }}</span></td><td class="row-actions"><button class="button secondary small" (click)="edit(role)" [disabled]="busy || systemNames.includes(role.name)" [title]="systemNames.includes(role.name) ? 'System role permissions are fixed.' : 'Edit role'">Edit</button><button class="button danger small" (click)="remove(role)" [disabled]="busy || systemNames.includes(role.name)" [title]="systemNames.includes(role.name) ? 'System roles cannot be deleted.' : 'Delete role'">Delete</button></td></tr>
+    <tr *ngIf="roles.length === 0"><td colspan="3" class="empty">No roles found.</td></tr>
+  </tbody></table></div>
+</section>

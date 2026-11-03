@@ -1,0 +1,44 @@
+<div class="page-heading">
+  <div><h1>Stock report</h1><p>Check quantities and sale availability before taking an order.</p></div>
+  <button type="button" class="button secondary" (click)="load()" [disabled]="loading || saving">Refresh</button>
+</div>
+<div *ngIf="error" class="alert error" role="alert">{{ error }}</div>
+<div *ngIf="success" class="alert success" role="status">{{ success }}</div>
+<section class="panel" *ngIf="auth.hasRole('Admin')">
+  <h2>{{ editingId ? 'Edit stock' : 'Add stock' }}</h2>
+  <form #stockForm="ngForm" (ngSubmit)="stockForm.valid && save()" class="form-grid">
+    <label class="field">Product
+      <select name="productId" [(ngModel)]="model.productId" required [disabled]="!!editingId || saving">
+        <option [ngValue]="0" disabled>Select a product</option>
+        <option *ngFor="let product of products" [ngValue]="product.id">{{ product.name }} / {{ product.colorName }} / {{ product.size }}</option>
+      </select>
+    </label>
+    <label class="field">Quantity
+      <input name="quantity" type="number" [(ngModel)]="model.quantity" required min="0" max="2147483647" step="1" [disabled]="saving">
+    </label>
+    <label class="check-field"><span><input name="isReadyForSale" type="checkbox" [(ngModel)]="model.isReadyForSale" [disabled]="saving"> Ready for sale</span></label>
+    <label class="check-field"><span><input name="status" type="checkbox" [(ngModel)]="model.status" [disabled]="saving"> Active</span></label>
+    <div class="actions field-wide">
+      <button type="submit" class="button" [disabled]="saving || loading || stockForm.invalid || !model.productId">{{ saving ? 'Saving...' : 'Save stock' }}</button>
+      <button type="button" class="button secondary" *ngIf="editingId" (click)="reset()" [disabled]="saving">Cancel</button>
+    </div>
+  </form>
+</section>
+<section class="panel">
+  <div class="toolbar"><label class="field">Search stock<input type="search" [(ngModel)]="search" placeholder="Product, color or size"></label><p>{{ filteredItems.length }} records · {{ totalQuantity }} units</p></div>
+  <p *ngIf="loading" role="status">Loading stock...</p>
+  <div class="table-wrap" *ngIf="!loading">
+    <table>
+      <thead><tr><th>Product</th><th>Color</th><th>Size</th><th>Quantity</th><th>Sale availability</th><th>Status</th><th *ngIf="auth.hasRole('Admin')">Actions</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let item of filteredItems">
+          <td>{{ item.productName }}</td><td>{{ item.colorName }}</td><td>{{ item.size }}</td><td>{{ item.quantity }}</td>
+          <td><span class="badge" [class.ready]="item.canSell" [class.muted]="!item.canSell">{{ item.canSell ? 'Available' : 'Unavailable' }}</span></td>
+          <td>{{ item.status ? 'Active' : 'Inactive' }}</td>
+          <td *ngIf="auth.hasRole('Admin')" class="row-actions"><div><button type="button" class="button secondary small" (click)="edit(item)" [disabled]="saving">Edit</button><button type="button" class="button danger small" (click)="remove(item)" [disabled]="saving">Delete</button></div></td>
+        </tr>
+        <tr *ngIf="!filteredItems.length"><td [attr.colspan]="auth.hasRole('Admin') ? 7 : 6" class="empty">No stock records found.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
