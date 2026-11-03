@@ -1,0 +1,15 @@
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\bin\Debug\net8.0\SimpleOrderSystem.Data.deps.json
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\bin\Debug\net8.0\SimpleOrderSystem.Data.dll
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\bin\Debug\net8.0\SimpleOrderSystem.Data.pdb
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\bin\Debug\net8.0\SimpleOrderSystem.Entities.dll
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\bin\Debug\net8.0\SimpleOrderSystem.Entities.pdb
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.csproj.AssemblyReference.cache
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.AssemblyInfoInputs.cache
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.AssemblyInfo.cs
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.csproj.CoreCompileInputs.cache
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOr.E3FF45B9.Up2Date
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.dll
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\refint\SimpleOrderSystem.Data.dll
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\SimpleOrderSystem.Data.pdb
+C:\Users\oguzh\OneDrive\Desktop\SimpleOrderSystem\SimpleOrderSystem.Data\obj\Debug\net8.0\ref\SimpleOrderSystem.Data.dll
